@@ -30,7 +30,6 @@ FactoryGirl.define do
         create(:block_with_two_cards, user: user)
       end
     end
-
     factory :user_with_two_blocks_and_one_card_in_each do
       after(:create) do |user|
         create(:block_with_one_card, user: user)

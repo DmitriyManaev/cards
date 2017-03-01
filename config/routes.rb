@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root 'main#index'
 
   scope module: 'home' do
-    resources :user_sessions, only: [:new, :create]
+    resources :user_sessions, only: :create
     resources :users, only: [:new, :create]
     get 'login' => 'user_sessions#new', :as => :login
 

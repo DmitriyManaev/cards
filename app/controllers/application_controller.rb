@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def default_url_options(options = {})
+  def default_url_options(options = {}) #naher
     { locale: I18n.locale }.merge options
   end
 end
