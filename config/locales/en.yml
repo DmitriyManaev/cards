@@ -39,9 +39,9 @@ en:
   profile_updated_successfully_notice: "Profile updated successfully."
 
   activerecord:
-      errors:
-        messages:
-          blank: 'Fill out the field.'
-          too_short: 'Short value.'
-          confirmation: 'Values do not match.'
-          taken: 'Not a unique value.'
+    errors:
+      messages:
+        blank: 'Fill out the field.'
+        too_short: 'Short value.'
+        confirmation: 'Values do not match.'
+        taken: 'Not a unique value.'

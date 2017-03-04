@@ -7,7 +7,7 @@ FactoryGirl.define do
     efactor 2.5
     quality 5
     attempt 1
-    user
-    block
+    user_id 1
+    block_id 1
   end
 end

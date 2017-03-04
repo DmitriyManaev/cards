@@ -1,6 +1,4 @@
 class Home::OauthsController < Home::BaseController
-  # sends the user on a trip to the provider,
-  # and after authorizing there back to the callback url.
   def oauth
     login_at(auth_params[:provider])
   end

@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   filter :locale
-
-  root 'main#index'
-
+  root to: 'main#index'
   scope module: 'home' do
     resources :user_sessions, only: :create
     resources :users, only: [:new, :create]

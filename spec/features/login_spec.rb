@@ -1,32 +1,32 @@
 require 'rails_helper'
 include LoginHelper
 
-describe 'password authentication' do
-  describe 'register' do
+RSpec.feature "Password authentication", type: :feature do
+  describe 'sign up' do
     let(:user) { build(:user) }
     
     before do
       visit new_user_path
     end
 
-    it 'register TRUE' do
+    it 'sign up successful' do
       sign_up_for user
       expect(page).to have_content 'Пользователь успешно создан.'
     end
 
-    it 'password confirmation FALSE' do
+    it 'incorrect password confirmation' do
       user.password_confirmation = '56789'
       sign_up_for user
       expect(page).to have_content "Значения не совпадают."
     end
 
-    it 'e-mail FALSE' do
+    it 'incorrect email' do
       user.email = 'test'
       sign_up_for user
       expect(page).to have_content 'Не верный формат.'
     end
 
-    it 'e-mail has already been taken' do
+    it 'email has already been taken' do
       user.save
       sign_up_for user
       expect(page).to have_content 'Не уникальное значение.'
@@ -38,7 +38,7 @@ describe 'password authentication' do
       expect(page).to have_content 'Короткое значение.'
     end
 
-    it 'password_confirmation is too short' do
+    it 'incorrect password_confirmation' do
       user.password_confirmation = '1'
       sign_up_for user
       expect(page).to have_content 'Значения не совпадают.'
@@ -57,16 +57,18 @@ describe 'password authentication' do
       expect(page).to have_content 'Вход выполнен успешно.'
     end
 
-    it 'incorrect e-mail' do
+    it 'incorrect email' do
       user.email = '1@1.com'
       login_for user
-      expect(page).to have_content 'Вход не выполнен. Проверте вводимые E-mail и Пароль.'
+      expect(page).
+          to have_content 'Вход не выполнен. Проверте вводимые E-mail и Пароль.'
     end
 
     it 'incorrect password' do
       user.password = '56789'
       login_for user
-      expect(page).to have_content 'Вход не выполнен. Проверте вводимые E-mail и Пароль.'
+      expect(page).
+          to have_content 'Вход не выполнен. Проверте вводимые E-mail и Пароль.'
     end
   end
 
@@ -79,12 +81,12 @@ describe 'password authentication' do
       visit new_user_path
     end
 
-    it 'register TRUE' do
+    it 'sign up successful' do
       sign_up_for user
       expect(page).to have_content 'User created successfully.'
     end
 
-    it 'default locale' do
+    it 'user has correct locale' do
       email = user.email
       sign_up_for user
 
@@ -92,7 +94,7 @@ describe 'password authentication' do
       expect(user.locale).to eq('en')
     end
 
-    it 'available locale' do
+    it 'edit profile successful' do
       sign_up_for user
       click_link 'User profile'
       fill_in 'user[password]', with: '12345'
@@ -102,7 +104,7 @@ describe 'password authentication' do
       expect(page).to have_content 'Profile updated successfully.'
     end
 
-    it 'authentication TRUE' do
+    it 'authentication successful' do
       create(:user)
       login_for user
       expect(page).to have_content 'Login is successful.'

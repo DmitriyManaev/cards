@@ -1,27 +1,33 @@
 require 'rails_helper'
-require 'support/helpers/login_helper.rb'
 include LoginHelper
 
-describe 'review cards without blocks' do
-  describe 'training without cards' do
+RSpec.feature "Review cards without blocks", type: :feature do
+  describe 'without cards' do
+    let(:user) { build(:user) }
+    
     before do
+      visit root_path
+      click_link 'ru'
       create(:user)
+      login_for user
       visit trainer_path
-      login('test@test.com', '12345', 'Войти')
     end
 
     it 'no cards' do
+      expect(User.last.locale).to eq('ru')
       expect(page).to have_content 'Ожидайте наступления даты пересмотра.'
     end
   end
 end
 
 describe 'review cards with one block' do
-  describe 'training without cards' do
+  describe 'without cards' do
+    let(:user) { build(:user) }
+
     before do
       create(:user_with_one_block_without_cards)
+      login_for user
       visit trainer_path
-      login('test@test.com', '12345', 'Войти')
     end
 
     it 'no cards' do
@@ -30,23 +36,16 @@ describe 'review cards with one block' do
   end
 
   describe 'training with two cards' do
+    let(:user) { build(:user) }
+
     before do
-      user = create(:user_with_one_block_and_two_cards)
-      user.cards.each { |card| card.update_attribute(:review_date,
-                                                     Time.now - 3.days) }
+      create(:user_with_one_block_and_one_card)
       visit trainer_path
-      login('test@test.com', '12345', 'Войти')
+      login_for user
     end
 
     it 'first visit' do
       expect(page).to have_content 'Оригинал'
-    end
-
-    it 'incorrect translation' do
-      fill_in 'user_translation', with: 'RoR'
-      click_button 'Проверить'
-      expect(page).
-          to have_content 'Вы ввели не верный перевод. Повторите попытку.'
     end
 
     it 'correct translation' do
@@ -61,6 +60,13 @@ describe 'review cards with one block' do
       expect(page).to have_content 'Вы ввели перевод c опечаткой.'
     end
 
+    it 'incorrect translation' do
+      fill_in 'user_translation', with: 'RoR'
+      click_button 'Проверить'
+      expect(page).
+          to have_content 'Вы ввели не верный перевод. Повторите попытку.'
+    end
+
     it 'incorrect translation distance=2' do
       fill_in 'user_translation', with: 'hou'
       click_button 'Проверить'
@@ -70,12 +76,12 @@ describe 'review cards with one block' do
   end
 
   describe 'training with one card' do
+    let(:user) { build(:user) }
+
     before do
-      user = create(:user_with_one_block_and_one_card)
-      user.cards.each { |card| card.update_attribute(:review_date,
-                                                     Time.now - 3.days) }
+      create(:user_with_one_block_and_one_card)
       visit trainer_path
-      login('test@test.com', '12345', 'Войти')
+      login_for user
     end
 
     it 'incorrect translation' do
@@ -129,11 +135,14 @@ describe 'review cards with one block' do
 end
 
 describe 'review cards with two blocks' do
+  let(:user) { build(:user) }
+
   describe 'training without cards' do
+
     before do
       create(:user_with_two_blocks_without_cards)
       visit trainer_path
-      login('test@test.com', '12345', 'Войти')
+      login_for user
     end
 
     it 'no cards' do
@@ -141,13 +150,13 @@ describe 'review cards with two blocks' do
     end
   end
 
-  describe 'training with two cards' do
+  describe 'with current_block and two cards' do
     before do
-      user = create(:user_with_two_blocks_and_one_card_in_each)
-      user.cards.each { |card| card.update_attribute(:review_date,
-                                                     Time.now - 3.days) }
+      create(:user_with_two_blocks_and_two_cards_in_each)
+      login_for user
+      visit blocks_path
+      first(:link, "Сделать текущей").click
       visit trainer_path
-      login('test@test.com', '12345', 'Войти')
     end
 
     it 'first visit' do
@@ -178,136 +187,6 @@ describe 'review cards with two blocks' do
       fill_in 'user_translation', with: 'hous'
       click_button 'Проверить'
       expect(page).to have_content 'Вы ввели перевод c опечаткой.'
-    end
-  end
-
-  describe 'training with one card' do
-    before do
-      user = create(:user_with_two_blocks_and_only_one_card)
-      user.cards.each { |card| card.update_attribute(:review_date,
-                                                     Time.now - 3.days) }
-      visit trainer_path
-      login('test@test.com', '12345', 'Войти')
-    end
-
-    it 'incorrect translation' do
-      fill_in 'user_translation', with: 'RoR'
-      click_button 'Проверить'
-      expect(page).
-          to have_content 'Вы ввели не верный перевод. Повторите попытку.'
-    end
-
-    it 'correct translation' do
-      fill_in 'user_translation', with: 'house'
-      click_button 'Проверить'
-      expect(page).to have_content 'Ожидайте наступления даты пересмотра.'
-    end
-
-    it 'incorrect translation distance=2' do
-      fill_in 'user_translation', with: 'hou'
-      click_button 'Проверить'
-      expect(page).
-          to have_content 'Вы ввели не верный перевод. Повторите попытку.'
-    end
-
-    it 'correct translation distance=1' do
-      fill_in 'user_translation', with: 'hous'
-      click_button 'Проверить'
-      expect(page).to have_content 'Вы ввели перевод c опечаткой.'
-    end
-  end
-end
-
-describe 'review cards with current_block' do
-  describe 'training without cards' do
-    before do
-      create(:user_with_two_blocks_without_cards, current_block_id: 1)
-      visit trainer_path
-      login('test@test.com', '12345', 'Войти')
-    end
-
-    it 'no cards' do
-      expect(page).to have_content 'Ожидайте наступления даты пересмотра.'
-    end
-  end
-
-  describe 'training with two cards' do
-    before do
-      user = create(:user_with_two_blocks_and_two_cards_in_each)
-      block = user.blocks.first
-      user.set_current_block(block)
-      card = user.cards.find_by(block_id: block.id)
-      card.update_attribute(:review_date, Time.now - 3.days)
-      visit trainer_path
-      login('test@test.com', '12345', 'Войти')
-    end
-
-    it 'first visit' do
-      expect(page).to have_content 'Оригинал'
-    end
-
-    it 'incorrect translation' do
-      fill_in 'user_translation', with: 'RoR'
-      click_button 'Проверить'
-      expect(page).
-          to have_content 'Вы ввели не верный перевод. Повторите попытку.'
-    end
-
-    it 'correct translation' do
-      fill_in 'user_translation', with: 'house'
-      click_button 'Проверить'
-      expect(page).to have_content 'Вы ввели верный перевод. Продолжайте.'
-    end
-
-    it 'incorrect translation distance=2' do
-      fill_in 'user_translation', with: 'hou'
-      click_button 'Проверить'
-      expect(page).
-          to have_content 'Вы ввели не верный перевод. Повторите попытку.'
-    end
-
-    it 'correct translation distance=1' do
-      fill_in 'user_translation', with: 'hous'
-      click_button 'Проверить'
-      expect(page).to have_content 'Вы ввели перевод c опечаткой.'
-    end
-  end
-
-  describe 'training with one card' do
-    before do
-      user = create(:user_with_two_blocks_and_one_card_in_each)
-      block = user.blocks.first
-      user.set_current_block(block)
-      card = user.cards.find_by(block_id: block.id)
-      card.update_attribute(:review_date, Time.now - 3.days)
-      visit trainer_path
-      login('test@test.com', '12345', 'Войти')
-    end
-
-    it 'incorrect translation' do
-      fill_in 'user_translation', with: 'RoR'
-      click_button 'Проверить'
-      expect(page).
-          to have_content 'Вы ввели не верный перевод. Повторите попытку.'
-    end
-
-    it 'correct translation' do
-      fill_in 'user_translation', with: 'house'
-      click_button 'Проверить'
-      expect(page).to have_content 'Ожидайте наступления даты пересмотра.'
-    end
-
-    it 'incorrect translation distance=2' do
-      fill_in 'user_translation', with: 'hou'
-      click_button 'Проверить'
-      expect(page).
-          to have_content 'Вы ввели не верный перевод. Повторите попытку.'
-    end
-
-    it 'correct translation distance=1' do
-      fill_in 'user_translation', with: 'hous'
-      click_button 'Проверить'
-      expect(page).to have_content 'Ожидайте наступления даты пересмотра.'
     end
   end
 end

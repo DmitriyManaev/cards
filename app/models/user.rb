@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :blocks, dependent: :destroy
   has_many :authentications, dependent: :destroy
   belongs_to :current_block, class_name: 'Block'
-  #before_create :set_default_locale
+  before_create :set_default_locale
   before_validation :set_default_locale, on: :create
 
   authenticates_with_sorcery!
