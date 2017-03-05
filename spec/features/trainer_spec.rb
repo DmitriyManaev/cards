@@ -14,7 +14,6 @@ RSpec.feature "Review cards without blocks", type: :feature do
     end
 
     it 'no cards' do
-      expect(User.last.locale).to eq('ru')
       expect(page).to have_content 'Ожидайте наступления даты пересмотра.'
     end
   end

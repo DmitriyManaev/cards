@@ -3,20 +3,19 @@ class User < ActiveRecord::Base
   has_many :blocks, dependent: :destroy
   has_many :authentications, dependent: :destroy
   belongs_to :current_block, class_name: 'Block'
-  before_create :set_default_locale
   before_validation :set_default_locale, on: :create
 
   authenticates_with_sorcery!
   accepts_nested_attributes_for :authentications
 
   validates :password, confirmation: true, presence: true,
-            length: { minimum: 3 }
+            length: { minimum: 5 }
   validates :password_confirmation, presence: true
   validates :email, uniqueness: true, presence: true,
-            format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/ } #to email_format
+            format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/ }
   validates :locale, presence: true,
             inclusion: { in: I18n.available_locales.map(&:to_s),
-                         message: 'Выберите локаль из выпадающего списка.' }
+                         message: 'Выберите локаль из выпадающего списка.' } #to locale
 
   def has_linked_github?
     authentications.where(provider: 'github').present?
