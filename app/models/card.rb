@@ -38,7 +38,7 @@ class Card < ActiveRecord::Base
   def self.pending_cards_notification
     users = User.where.not(email: nil)
     users.each do |user|
-      if user.cards.pending.any?
+      if user.cards.pending
         CardsMailer.pending_cards_notification(user.email).deliver
       end
     end

@@ -1,4 +1,4 @@
-class Home::UserSessionsController < Home::BaseController
+class UserSessionsController < ApplicationController
   def new
     if current_user
       redirect_to root_path
@@ -14,5 +14,10 @@ class Home::UserSessionsController < Home::BaseController
       flash.now[:alert] = t(:not_logged_in_alert)
       render :new
     end
+  end
+
+  def destroy
+    logout
+    redirect_to login_path, notice: t(:log_out_is_successful_notice)
   end
 end

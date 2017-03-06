@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def not_authenticated
+    redirect_to login_path, alert: t(:please_log_in)
+  end
+
   def set_locale
     locale = if current_user
                current_user.locale

@@ -1,15 +1,10 @@
 class Dashboard::TrainerController < Dashboard::BaseController
   def index
-    if params[:id]
-      @card = current_user.cards.find(params[:id])
+    block = current_user.current_block
+    @card = if block
+      block.cards.pending.first || block.cards.repeating.first
     else
-      if current_user.current_block
-        @card = current_user.current_block.cards.pending.first
-        @card ||= current_user.current_block.cards.repeating.first
-      else
-        @card = current_user.cards.pending.first
-        @card ||= current_user.cards.repeating.first
-      end
+      current_user.cards.pending.first || current_user.cards.repeating.first
     end
 
     respond_to do |format|
@@ -27,7 +22,7 @@ class Dashboard::TrainerController < Dashboard::BaseController
       if check_result[:distance] == 0
         flash[:notice] = t(:correct_translation_notice)
       else
-        flash[:alert] = t 'translation_from_misprint_alert',
+        flash[:alert] = t :translation_from_misprint_alert,
                           user_translation: trainer_params[:user_translation],
                           original_text: @card.original_text,
                           translated_text: @card.translated_text

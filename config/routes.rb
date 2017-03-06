@@ -1,34 +1,26 @@
 Rails.application.routes.draw do
   filter :locale
   root to: 'main#index'
-  scope module: 'home' do
-    resources :user_sessions, only: :create
-    resources :users, only: [:new, :create]
-    get 'login' => 'user_sessions#new', :as => :login
+  resources :users, only: [:new, :create, :edit, :update, :destroy]
+  
+  resources :user_sessions, only: :create
+  get 'login' => 'user_sessions#new', as: :login
+  post 'logout' => 'user_sessions#destroy', as: :logout
 
-    post 'oauth/callback' => 'oauths#callback'
-    get 'oauth/callback' => 'oauths#callback'
-    get 'oauth/:provider' => 'oauths#oauth', as: :auth_at_provider
-  end
+  match 'oauth/callback' => 'oauths#callback', via: [:get, :post]
+  get 'oauth/:provider' => 'oauths#oauth', as: :auth_at_provider
 
   scope module: 'dashboard' do
-    resources :user_sessions, only: :destroy
-    resources :users, only: :destroy
-    post 'logout' => 'user_sessions#destroy', :as => :logout
-
     resources :cards
 
     resources :blocks do
       member do
-        put 'set_as_current'
-        put 'reset_as_current'
+        post 'set_as_current'
+        post 'reset_as_current'
       end
     end
 
-    put 'review_card' => 'trainer#review_card'
+    post 'review_card' => 'trainer#review_card'
     get 'trainer' => 'trainer#index'
-
-    get 'profile/:id/edit' => 'profile#edit', as: :edit_profile
-    put 'profile/:id' => 'profile#update', as: :profile
   end
 end

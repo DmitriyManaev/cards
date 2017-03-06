@@ -37,6 +37,7 @@ ru:
   log_out_failed_provider_alert: "Вход из аккаунта %{provider.titleize} не выполнен ."
   please_log_in: 'Пожалуйста авторизуйтесь.'
   profile_updated_successfully_notice: 'Профиль пользователя успешно обновлен.'
+  user_deleted_notice: 'Пользователь удален.'
 
   activerecord:
     errors:

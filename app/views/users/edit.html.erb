@@ -1,5 +1,7 @@
-<%= simple_form_for current_user, url: profile_path(current_user),
-                    method: :put do |f| %>
+<h2>Профиль</h2>
+
+<%= simple_form_for current_user, url: user_path(current_user),
+                    method: :patch do |f| %>
   <div class="form-group">
     <%= f.input :locale, priority: I18n.default_locale,
                 collection: I18n.available_locales, include_blank: false,

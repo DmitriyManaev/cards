@@ -7,12 +7,9 @@ class SuperMemo
     def algorithm(interval, repeat, efactor, attempt, distance, distance_limit)
       quality = set_quality(attempt, distance, distance_limit)
       efactor = set_efactor(efactor, quality)
-      sm_hash = if quality >= 3
-                  set_interval(interval, repeat + 1, efactor)
-                else
-                  set_interval(interval, 1, efactor)
-                end
-      sm_hash.merge!(quality: quality)
+      repeat = quality >= 3 ? repeat + 1 : 1
+      sm_hash = set_interval(interval, repeat, efactor)
+      sm_hash.merge!(quality: quality, efactor: efactor, repeat: repeat)
     end
 
     def set_interval(interval, repeat, efactor)
@@ -21,7 +18,7 @@ class SuperMemo
                  when 2 then 6
                  else (interval * efactor).round
                  end
-      { interval: interval, efactor: efactor, repeat: repeat }
+      { interval: interval }
     end
 
     def set_efactor(efactor, quality)

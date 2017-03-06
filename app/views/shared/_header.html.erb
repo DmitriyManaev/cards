@@ -20,7 +20,7 @@
           <% end %>
           <p class="navbar-text navbar-right">
             <% if current_user %>
-              <%= link_to t(:user_profile_label), edit_profile_path(current_user),
+              <%= link_to t(:user_profile_label), edit_user_path(current_user),
                           class: 'navbar-link' %> |
               <%= link_to t(:delete_user_label), user_path(current_user),
                           method: :delete, class: 'navbar-link',
