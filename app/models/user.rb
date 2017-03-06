@@ -14,14 +14,13 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true, presence: true,
             format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/ }
   validates :locale, presence: true,
-            inclusion: { in: I18n.available_locales.map(&:to_s),
-                         message: 'Выберите локаль из выпадающего списка.' } #to locale
+            inclusion: { in: I18n.available_locales.map(&:to_s) }
 
   def has_linked_github?
     authentications.where(provider: 'github').present?
   end
 
-  def set_current_block(block)
+  def set_current_block block 
     update_attribute(:current_block_id, block.id)
   end
 

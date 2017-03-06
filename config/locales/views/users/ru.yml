@@ -1,0 +1,8 @@
+ru:
+  profile_head: 'Профиль'
+  locale_lable: 'Локаль'
+  locale_prompt: 'Выберите локаль'
+  email_lable: 'E-mail'
+  password_lable: 'Пароль'
+  password_confirmation_lable: 'Подтверждение пароля'
+  submit: 'Сохранить'

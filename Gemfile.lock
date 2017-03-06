@@ -142,6 +142,7 @@ GEM
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
     public_suffix (2.0.5)
+    puma (3.7.1)
     rack (1.6.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -262,6 +263,7 @@ DEPENDENCIES
   pg
   phantomjs
   poltergeist
+  puma
   rails (= 4.2.1)
   rails_12factor
   rollbar

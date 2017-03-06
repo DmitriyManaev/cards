@@ -1,4 +1,5 @@
 ru:
+  title: 'Флэшкарточкер'
   welcome: 'Добро пожаловать.'
   original_text_label: 'Оригинал'
   translated_text_label: 'Перевод'
@@ -39,8 +40,22 @@ ru:
   profile_updated_successfully_notice: 'Профиль пользователя успешно обновлен.'
   user_deleted_notice: 'Пользователь удален.'
 
+  errors:
+    card:
+      equal_texts: 'Вводимые значения должны отличаться.'
+
   activerecord:
     errors:
+      models:
+        card:
+          attributes:
+            block_id:
+              blank: 'Выберите колоду.'
+            user_id: 
+              blank: 'Ошибка ассоциации.'  
+        user:
+          attributes:
+            locale: 'Выберите локаль.'   
       messages:
         blank: 'Заполните поле.'
         too_short: 'Короткое значение.'

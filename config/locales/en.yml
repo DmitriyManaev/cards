@@ -1,4 +1,5 @@
 en:
+  title: 'Flash cards'
   welcome: 'Welcome.'
   original_text_label: 'Original'
   translated_text_label: 'Translation'
@@ -39,10 +40,25 @@ en:
   profile_updated_successfully_notice: 'Profile updated successfully.'
   user_deleted_notice: 'User deleted.'
 
+  errors:
+    card:
+      equal_texts: 'The input values must be different.'
+
   activerecord:
     errors:
+      models:
+        card:
+          attributes:
+            block_id:
+              blank: 'Choose block.'
+            user_id: 
+              blank: 'Assotiation error.'  
+        user:
+          attributes:
+            locale: 'Choose locale.'
       messages:
         blank: 'Fill out the field.'
         too_short: 'Short value.'
         confirmation: 'Values do not match.'
         taken: 'Not a unique value.'
+        invalid: 'Invalid format.'

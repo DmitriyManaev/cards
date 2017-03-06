@@ -1,0 +1,10 @@
+en:
+  add_block_head: 'Add block'
+  edit_block_head: 'Edit block'
+  caption: 'Caption'
+  make_average_link: 'Make average'
+  make_current_link: 'Make current'
+  edit_link: 'Edit'
+  delete_link: 'Delete'
+  delete_confirm: 'Delete block?'
+  submit: 'Save'

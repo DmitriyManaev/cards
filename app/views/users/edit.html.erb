@@ -1,27 +1,27 @@
-<h2>Профиль</h2>
+<h2><%= t(:profile_head) %></h2>
 
 <%= simple_form_for current_user, url: user_path(current_user),
                     method: :patch do |f| %>
   <div class="form-group">
     <%= f.input :locale, priority: I18n.default_locale,
                 collection: I18n.available_locales, include_blank: false,
-                prompt: 'Выберите локаль',
-                label: 'Локаль',
+                prompt: t(:locale_prompt),
+                label: t(:locale_lable),
                 input_html: { class: 'form-control', required: true } %>
   </div>
   <div class="form-group">
-    <%= f.input :email, as: :email, label: 'E-mail',
+    <%= f.input :email, as: :email, label: t(:email_lable),
                 input_html: { class: 'form-control', required: true,
                               autofocus: true } %>
   </div>
   <div class="form-group">
-    <%= f.input :password, as: :password, label: 'Пароль',
+    <%= f.input :password, as: :password, label: t(:password_lable),
                 input_html: { class: 'form-control', required: true } %>
   </div>
   <div class="form-group">
     <%= f.input :password_confirmation, as: :password,
-                label: 'Подтверждение пароля',
+                label: t(:password_confirmation_lable),
                 input_html: { class: 'form-control', required: true } %>
   </div>
-  <%= f.button :submit, 'Сохранить', class: 'btn btn-default' %>
+  <%= f.button :submit, t(:submit), class: 'btn btn-default' %>
 <% end %>

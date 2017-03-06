@@ -1,0 +1,10 @@
+ru:
+  add_block_head: 'Добавить колоду'
+  edit_block_head: 'Редактировать колоду'
+  caption: 'Название'
+  make_average_link: 'Сделать обычной'
+  make_current_link: 'Сделать текущей'
+  edit_link: 'Редактировать'
+  delete_link: 'Удалить'
+  delete_confirm: 'Удалить колоду?'
+  submit: 'Сохранить'

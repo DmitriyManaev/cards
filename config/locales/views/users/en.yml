@@ -1,0 +1,8 @@
+en:
+  profile_head: 'Profile'
+  locale_lable: 'Locale'
+  locale_prompt: 'Choose locale'
+  email_lable: 'E-mail'
+  password_lable: 'Password'
+  password_confirmation_lable: 'Password confirmation'
+  submit: 'Save'

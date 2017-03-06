@@ -8,14 +8,14 @@ RSpec.describe Card, type: :model do
       card.original_text = ''
       card.save
       expect(card.errors[:original_text]).
-          to include('Необходимо заполнить поле.')
+          to include('Заполните поле.')
     end
 
     it 'with empty translated text' do
       card.translated_text = ''
       card.save
       expect(card.errors[:translated_text]).
-          to include('Необходимо заполнить поле.')
+          to include('Заполните поле.')
     end
 
     it 'with empty texts' do
@@ -69,7 +69,7 @@ RSpec.describe Card, type: :model do
       card.block_id = ''
       card.save
       expect(card.errors[:block_id]).
-          to include('Выберите колоду из выпадающего списка.')
+          to include('Выберите колоду.')
     end
   end
   

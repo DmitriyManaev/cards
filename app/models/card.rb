@@ -3,15 +3,10 @@ require 'super_memo'
 class Card < ActiveRecord::Base
   belongs_to :user
   belongs_to :block
-  validates :user_id, presence: true
   before_validation :set_review_date_as_now, on: :create
   validate :texts_are_not_equal
-  validates :original_text, :translated_text, :review_date,
-            presence: { message: 'Необходимо заполнить поле.' }
-  validates :user_id, presence: { message: 'Ошибка ассоциации.' }
-  validates :block_id,
-            presence: { message: 'Выберите колоду из выпадающего списка.' }
-  validates :interval, :repeat, :efactor, :quality, :attempt, presence: true
+  validates :original_text, :translated_text, :review_date, :user_id, :repeat,
+            :block_id, :interval, :efactor, :quality, :attempt, presence: true
 
   mount_uploader :image, CardImageUploader
 
@@ -26,25 +21,26 @@ class Card < ActiveRecord::Base
 
     if distance <= 1
       sm_hash.merge!({ review_date: Time.now + interval.to_i.days, attempt: 1 })
-      update(sm_hash)
-      { state: true, distance: distance }
+      state = true
     else
       sm_hash.merge!({ attempt: [attempt + 1, 5].min })
-      update(sm_hash)
-      { state: false, distance: distance }
+      state = false
     end
+    
+    update(sm_hash)
+    { state: state, distance: distance }
   end
 
   def self.pending_cards_notification
     users = User.where.not(email: nil)
     users.each do |user|
-      if user.cards.pending
+      if user.cards.pending.any?
         CardsMailer.pending_cards_notification(user.email).deliver
       end
     end
   end
 
-  protected
+  private
 
   def set_review_date_as_now
     self.review_date = Time.now
@@ -52,7 +48,7 @@ class Card < ActiveRecord::Base
 
   def texts_are_not_equal
     if full_downcase(original_text) == full_downcase(translated_text)
-      errors.add(:original_text, 'Вводимые значения должны отличаться.')
+      errors.add(:original_text, I18n.t('errors.card.equal_texts'))
     end
   end
 
