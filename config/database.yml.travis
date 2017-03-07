@@ -1,4 +1,18 @@
+defaults: &defaults
+  pool: 5
+  timeout: 5000
+  host: localhost  
+
+development:
+  <<: *defaults
+
 test:
+  <<: *defaults
   adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: travis_ci_test
   username: postgres
+
+production:
+  <<: *defaults

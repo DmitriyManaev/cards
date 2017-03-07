@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
-ruby '2.1.4'
-gem 'rails', '4.2.1'
+ruby '2.4.0'
+gem 'rails', '5.0.2'
 gem 'pg'
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '5.0.6'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
@@ -26,6 +26,7 @@ gem 'routing-filter'
 gem 'rollbar'
 gem 'newrelic_rpm'
 gem 'puma'
+gem 'therubyracer', platforms: :ruby
 
 group :development, :test do
   gem 'rspec-rails'

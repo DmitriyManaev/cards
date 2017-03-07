@@ -1,7 +1,10 @@
 module TrainerHelper
   def check_review_card(card, translate = card.translated_text, number = 1)
     number.times {
-      put :review_card, { card_id: card.id, user_translation: translate }
+      post :review_card, params: { card_id: card.id, 
+                                   user_translation: translate 
+                                  }
+
     }
 
     @card = Card.find(card.id)

@@ -1,11 +1,12 @@
 class Dashboard::TrainerController < Dashboard::BaseController
   def index
     block = current_user.current_block
+    user = current_user
     @card = if block
-      block.cards.pending.first || block.cards.repeating.first
-    else
-      current_user.cards.pending.first || current_user.cards.repeating.first
-    end
+              block.cards.pending.first || block.cards.repeating.first
+            else
+              user.cards.pending.first || user.cards.repeating.first
+            end
 
     respond_to do |format|
       format.html
