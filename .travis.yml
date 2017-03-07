@@ -2,7 +2,7 @@ language: ruby
 sudo: required
 dist: trusty
 rvm:
-  - "2.1.4"
+  - "2.4.0"
 env:
   - DB=postgresql
 addons:
@@ -26,9 +26,5 @@ script:
   - bundle exec rake db:migrate 
   - bundle exec rake db:test:prepare
   - bundle exec rspec spec/
-branches:
-  only:
-    - master
-    - withoutRailsAdmin
 services:
   - postgresql  
